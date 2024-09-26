@@ -1,0 +1,11 @@
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.java.testing.junit5.JUnit5BestPractices
+displayName: JUnit Jupiter best practices
+description: Applies best practices to tests.
+tags:
+  - junit
+  - testing
+recipeList:
+  - org.openrewrite.java.testing.junit5.JUnit4to5Migration
+  - org.openrewrite.java.testing.junit5.AssertToAssertions

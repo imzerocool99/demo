@@ -1,0 +1,52 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.5.12'
+	id 'io.spring.dependency-management' version '1.1.6'
+	id("org.openrewrite.rewrite") version("6.12.0")
+}
+
+group = 'com.employee'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+	maven { url 'https://mvnrepository.com/artifact/io.springfox/springfox-swagger2' }
+	maven {url 'https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api'}
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'javax.inject:javax.inject:1'
+	implementation 'io.springfox:springfox-swagger2:3.0.0'
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+	implementation 'javax.servlet:javax.servlet-api:4.0.1'
+
+	rewrite("org.openrewrite.recipe:rewrite-testing-frameworks:2.7.0")
+	testImplementation "org.junit.jupiter:junit-jupiter:5.11.1"
+	testImplementation "junit:junit:4.13.1"
+}
+rewrite {
+	activeRecipe("org.openrewrite.java.testing.junit5.JUnit4to5Migration")
+}
+tasks.named('test') {
+	useJUnitPlatform()
+}
